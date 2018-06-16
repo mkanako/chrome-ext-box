@@ -1,0 +1,83 @@
+{
+  "name": "chrome-ext-box",
+  "version": "1.0.0",
+  "description": "Chrome Extensions Storage Box",
+  "author": "kanako",
+  "license": "MIT",
+  "homepage": "https://github.com/mkanako/chrome-ext-box",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mkanako/chrome-ext-box.git"
+  },
+  "dependencies": {
+    "element-ui": "^2.4.1",
+    "lodash": "^4.17.10",
+    "normalize.css": "^8.0.0",
+    "vue": "^2.5.16",
+    "vue-multiple-back-top": "^1.0.2",
+    "vue-plugin-webextension-i18n": "^0.1.0",
+    "vuedraggable": "^2.16.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-component": "^1.1.1",
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-html": "^4.0.3",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "eslint-plugin-vue": "^4.5.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.0.0-rc.9",
+    "lint-staged": "^7.2.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "prettier": "^1.13.5",
+    "stylelint": "^9.2.1",
+    "stylelint-config-standard": "^18.2.0",
+    "url-loader": "^1.0.1",
+    "vue-loader": "^15.2.4",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.4",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "scripts": {
+    "lint": "lint-staged",
+    "lint:css": "stylelint src/**/*.css --fix",
+    "lint:js": "eslint src/**/*.{js,vue} --fix --format codeframe",
+    "dev": "webpack",
+    "build": "webpack --env.prod",
+    "start": "webpack-dev-server --open",
+    "watch": "webpack -w",
+    "dev:dll": "webpack --config webpack.dll.config.js --mode development"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.css": [
+      "stylelint --fix",
+      "git add"
+    ],
+    "src/**/*.{js,vue}": [
+      "eslint --fix --format codeframe",
+      "git add"
+    ]
+  }
+}

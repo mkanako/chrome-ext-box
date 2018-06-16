@@ -1,0 +1,29 @@
+{
+  "extDesr": {
+    "message": "将日常需要用到的扩展添加到收纳盒里，以便快速开启/禁用。"
+  },
+  "extName": {
+    "message": "扩展收纳盒"
+  },
+  "extNameShort": {
+    "message": "扩展收纳盒"
+  },
+  "addBtn":{
+    "message":"添加"
+  },
+  "searchPlaceholder":{
+    "message":"搜索扩展程序"
+  },
+  "table1stCol":{
+    "message":"扩展名称"
+  },
+  "table2ndCol":{
+    "message":"操作"
+  },
+  "emptyText":{
+    "message":"暂无扩展"
+  },
+  "usage":{
+    "message":"请从下面选择添加需要用到的扩展进来（可拖拽排序）"
+  }
+}

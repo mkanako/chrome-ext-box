@@ -1,0 +1,30 @@
+{
+  "extDesr": {
+    "message":
+      "Add the daily needed extensions to the storage box for quick on/off."
+  },
+  "extName": {
+    "message": "Extensions Storage Box"
+  },
+  "extNameShort": {
+    "message": "Ext Box"
+  },
+  "addBtn":{
+    "message":"Add"
+  },
+  "searchPlaceholder":{
+    "message":"Search extension"
+  },
+  "table1stCol":{
+    "message":"Extension name"
+  },
+  "table2ndCol":{
+    "message":"Operation"
+  },
+  "emptyText":{
+    "message":"No extension"
+  },
+  "usage":{
+    "message":"Please select from below to add the extensions you need to use (sortable)"
+  }
+}
