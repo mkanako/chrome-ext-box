@@ -1,11 +1,11 @@
 <template>
   <div :style="pageStyle">
-    <div class="sticky">
+    <!-- <div class="sticky"> -->
       <draggable  @start="dragStart" @end="dragEnd" id="list" v-model="list" :options="{draggable:'.item',forceFallback:true}">
         <div v-for="(element,index) in list" :key="element.id" class="item">
           <el-tooltip :open-delay="300" :disabled="tooltipDisabled" :content="element.name" placement="bottom">
             <div>
-              <img class="ext-list-icon" :src="element.icon" alt="">
+              <img class="ext-list-icon" :src="getIcon(element)" alt="">
               <i @click="remove(index)" class="el-icon-circle-close"></i>
             </div>
           </el-tooltip>
@@ -13,7 +13,7 @@
         <div class="usage" v-if="list.length==0">{{ $i18n('usage') }}</div>
       </draggable>
       <el-input clearable :placeholder="$i18n('searchPlaceholder')" prefix-icon="el-icon-search"  v-model="searchKey"></el-input>
-    </div>
+    <!-- </div> -->
     <el-table :empty-text="$i18n('emptyText')" row-key="id" :data="this.$root.CurExtList" highlight-current-row stripe style="width: 100%">
       <el-table-column prop="name" :label="$i18n('table1stCol')">
         <template slot-scope="scope">
@@ -35,14 +35,15 @@
   </div>
 </template>
 <script>
-import _ from 'lodash'
+import { debounce, findIndex } from 'lodash-es'
+import { getIcon } from './utils'
 import draggable from 'vuedraggable'
 import VmBackTop from 'vue-multiple-back-top'
 export default {
   name: 'OptionsPage',
   methods: {
     remove(index) {
-      let rowIndex = _.findIndex(this.$root.ExtList, [
+      let rowIndex = findIndex(this.$root.ExtList, [
         'id',
         this.list.splice(index, 1)[0].id,
       ])
@@ -61,21 +62,17 @@ export default {
       }, 500)
     },
     add(row) {
-      let index = _.findIndex(this.$root.ExtList, ['id', row.id])
+      let index = findIndex(this.$root.ExtList, ['id', row.id])
       if (index >= 0) {
         row.isAdd = true
         this.$set(this.$root.ExtList, index, row)
-        this.list.push({ name: row.name, icon: this.getIcon(row), id: row.id })
+        this.list.push({ id: row.id, name: row.name, icons: row.icons })
       }
     },
-    getIcon(row) {
-      return row.icons
-        ? row.icons[row.icons.length - 1].url
-        : './images/ext_default_icon.png'
-    },
+    getIcon,
   },
   created() {
-    this.debounceSearch = _.debounce(() => {
+    this.debounceSearch = debounce(() => {
       this.$root.searchKey = this.searchKey
     }, 300)
   },
@@ -83,8 +80,12 @@ export default {
     searchKey(newVal, oldVal) {
       this.debounceSearch()
     },
-    list(newVal, oldVal) {
-      chrome.storage.sync.set({ list: newVal })
+    list(newVal) {
+      chrome.storage.sync.set({
+        list: newVal.map(item => {
+          return { id: item.id }
+        }),
+      })
     },
   },
   data() {
@@ -109,12 +110,12 @@ export default {
 .tip-content {
   max-width: 520px;
 }
-.sticky {
+/* .sticky {
   position: sticky;
   top: 0;
   background: #fff;
   z-index: 1;
-}
+} */
 .el-table {
   border-right: 1px solid #ebeef5;
   border-left: 1px solid #ebeef5;

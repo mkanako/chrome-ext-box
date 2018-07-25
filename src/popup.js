@@ -7,13 +7,13 @@ Vue.use(i18n)
 
 Vue.config.productionTip = false
 
-let getExtension = id =>
+const getExtension = id =>
   new Promise((resolve, reject) => {
     chrome.management.get(id, result => {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError)
       } else {
-        resolve(result.enabled)
+        resolve(result)
       }
     })
   })
@@ -25,7 +25,9 @@ chrome.storage.sync.get(['list'], result => {
         Promise.all(this.list.map(item => getExtension(item.id))).then(
           results => {
             this.list = this.list.map((item, index) => {
-              item.enabled = results[index]
+              item.enabled = results[index].enabled
+              item.name = results[index].name
+              item.icons = results[index].icons
               return item
             })
           },

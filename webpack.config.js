@@ -10,7 +10,7 @@ module.exports = function(env, argv) {
   let plugins = [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].css?v=[contenthash]',
       chunkFilename: '[name].css',
     }),
     new HtmlWebpackPlugin({
@@ -56,11 +56,11 @@ module.exports = function(env, argv) {
       ]),
     )
   } else {
-    plugins.push(
-      new webpack.DllReferencePlugin({
-        manifest: path.resolve(__dirname, 'dist/dll.json'),
-      }),
-    )
+    // plugins.push(
+    //   new webpack.DllReferencePlugin({
+    //     manifest: path.resolve(__dirname, 'dist/dll.json'),
+    //   }),
+    // )
   }
   return {
     entry: {

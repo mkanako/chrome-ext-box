@@ -15,10 +15,10 @@ Vue.config.productionTip = false
 
 chrome.storage.sync.get(['list'], result => {
   let list = result.list || []
-  let listID = list.reduce((accumulator, currentValue) => {
-    accumulator[currentValue.id] = true
-    return accumulator
-  }, {})
+  let listID = {}
+  for (let i = 0; i < list.length; i++) {
+    listID[list[i].id] = i
+  }
   chrome.management.getAll(result => {
     new Vue({
       created() {
@@ -26,8 +26,10 @@ chrome.storage.sync.get(['list'], result => {
       },
       data: {
         ExtList: result.filter(item => {
-          if (listID[item.id]) {
+          if (listID[item.id] !== undefined) {
             item.isAdd = true
+            list[listID[item.id]].name = item.name
+            list[listID[item.id]].icons = item.icons
           }
           return (
             item.type === 'extension' &&

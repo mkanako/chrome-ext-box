@@ -10,12 +10,12 @@
     "url": "git://github.com/mkanako/chrome-ext-box.git"
   },
   "dependencies": {
-    "element-ui": "^2.4.1",
-    "lodash": "^4.17.10",
+    "element-ui": "^2.4.4",
+    "lodash-es": "^4.17.10",
     "normalize.css": "^8.0.0",
     "vue": "^2.5.16",
     "vue-multiple-back-top": "^1.0.2",
-    "vue-plugin-webextension-i18n": "^0.1.0",
+    "vue-plugin-webextension-i18n": "^0.1.1",
     "vuedraggable": "^2.16.0"
   },
   "devDependencies": {
