@@ -34,6 +34,21 @@ chrome.storage.sync.get(['list'], result => {
         )
       }
     },
+    watch: {
+      list(newVal) {
+        let enabledTotal = newVal.reduce((accumulator, curVal) => {
+          curVal.enabled && accumulator++
+          return accumulator
+        }, 0)
+        if (enabledTotal) {
+          chrome.browserAction.setBadgeText({
+            text: enabledTotal + '',
+          })
+        } else {
+          chrome.browserAction.setBadgeText({ text: '' })
+        }
+      },
+    },
     data: {
       list: result.list || [],
     },
