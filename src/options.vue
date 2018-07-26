@@ -92,9 +92,8 @@ export default {
     return {
       tooltipDisabled: false,
       pageStyle: {
-        width: window.innerWidth * 0.6 + 'px',
+        width: '844px',
         margin: '0 auto',
-        minWidth: '640px',
       },
       searchKey: '',
       list: this.$root.list,
