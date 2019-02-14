@@ -29,5 +29,6 @@
   "permissions": ["management", "storage"],
   "short_name": "__MSG_extNameShort__",
   "update_url": "https://clients2.google.com/service/update2/crx",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "version": "1.1.1"
 }

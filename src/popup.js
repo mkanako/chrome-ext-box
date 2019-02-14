@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import 'normalize.css/normalize.css'
-import App from './popup.vue'
+import Vue from 'vue'
 import i18n from 'vue-plugin-webextension-i18n'
+import App from './popup.vue'
 
 Vue.use(i18n)
 
@@ -20,7 +20,7 @@ const getExtension = id =>
 
 chrome.storage.sync.get(['list'], result => {
   new Vue({
-    created() {
+    created () {
       if (this.list.length) {
         Promise.all(this.list.map(item => getExtension(item.id))).then(
           results => {
@@ -35,10 +35,10 @@ chrome.storage.sync.get(['list'], result => {
       }
     },
     watch: {
-      list(newVal) {
-        let enabledTotal = newVal.reduce((accumulator, curVal) => {
-          curVal.enabled && accumulator++
-          return accumulator
+      list (val) {
+        const enabledTotal = val.reduce((sum, item) => {
+          item.enabled && sum++
+          return sum
         }, 0)
         if (enabledTotal) {
           chrome.browserAction.setBadgeText({

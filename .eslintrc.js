@@ -1,9 +1,7 @@
 module.exports = {
-  // parser: 'babel-eslint',
+  root: true,
   parserOptions: {
     parser: 'babel-eslint',
-    ecmaVersion: 2017,
-    sourceType: 'module',
   },
   globals: {
     chrome: true,
@@ -13,26 +11,14 @@ module.exports = {
     commonjs: true,
     es6: true,
   },
-  // prettier-ignore
   extends: [
     'standard',
     'plugin:vue/essential',
-    'plugin:prettier/recommended'
   ],
-  root: true,
   plugins: [
     'vue',
-    // 'html',
   ],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-        bracketSpacing: true,
-        trailingComma: 'all',
-        semi: false,
-      },
-    ],
+    'comma-dangle': 'off',
   },
 }

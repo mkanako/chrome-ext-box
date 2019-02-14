@@ -1,8 +1,7 @@
 <template>
-  <div :style="pageStyle">
-    <!-- <div class="sticky"> -->
-      <draggable  @start="dragStart" @end="dragEnd" id="list" v-model="list" :options="{draggable:'.item',forceFallback:true}">
-        <div v-for="(element,index) in list" :key="element.id" class="item">
+  <div style="width:844px;margin:0 auto;">
+      <draggable  @start="dragStart" @end="dragEnd" id="list" v-model="$root.list" :options="{draggable:'.item',forceFallback:true}">
+        <div v-for="(element,index) in $root.list" :key="element.id" class="item">
           <el-tooltip :open-delay="300" :disabled="tooltipDisabled" :content="element.name" placement="bottom">
             <div>
               <img class="ext-list-icon" :src="getIcon(element)" alt="">
@@ -10,11 +9,10 @@
             </div>
           </el-tooltip>
         </div>
-        <div class="usage" v-if="list.length==0">{{ $i18n('usage') }}</div>
+        <div class="usage" v-if="$root.list.length==0">{{ $i18n('usage') }}</div>
       </draggable>
       <el-input clearable :placeholder="$i18n('searchPlaceholder')" prefix-icon="el-icon-search"  v-model="searchKey"></el-input>
-    <!-- </div> -->
-    <el-table :empty-text="$i18n('emptyText')" row-key="id" :data="this.$root.CurExtList" highlight-current-row stripe style="width: 100%">
+    <el-table :empty-text="$i18n('emptyText')" row-key="id" :data="$root.CurExtList" highlight-current-row stripe style="width: 100%">
       <el-table-column prop="name" :label="$i18n('table1stCol')">
         <template slot-scope="scope">
           <el-tooltip placement="right">
@@ -31,7 +29,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <vm-back-top></vm-back-top>
+    <vm-back-top />
   </div>
 </template>
 <script>
@@ -39,64 +37,53 @@ import { debounce, findIndex } from 'lodash-es'
 import { getIcon } from './utils'
 import draggable from 'vuedraggable'
 import VmBackTop from 'vue-multiple-back-top'
+
 export default {
   name: 'OptionsPage',
   methods: {
-    remove(index) {
-      let rowIndex = findIndex(this.$root.ExtList, [
-        'id',
-        this.list.splice(index, 1)[0].id,
-      ])
-      if (rowIndex >= 0) {
-        let row = this.$root.ExtList[rowIndex]
-        row.isAdd = false
-        this.$set(this.$root.ExtList, rowIndex, row)
-      }
-    },
-    dragStart() {
-      this.tooltipDisabled = true
-    },
-    dragEnd(e) {
-      setTimeout(() => {
-        this.tooltipDisabled = false
-      }, 500)
-    },
-    add(row) {
+    add (row) {
       let index = findIndex(this.$root.ExtList, ['id', row.id])
       if (index >= 0) {
         row.isAdd = true
         this.$set(this.$root.ExtList, index, row)
-        this.list.push({ id: row.id, name: row.name, icons: row.icons })
+        this.$root.list.push({ id: row.id, name: row.name, icons: row.icons })
       }
+    },
+    remove (index) {
+      let rowIndex = findIndex(this.$root.ExtList, [
+        'id',
+        this.$root.list.splice(index, 1)[0].id,
+      ])
+      if (rowIndex >= 0) {
+        const row = this.$root.ExtList[rowIndex]
+        row.isAdd = false
+        this.$set(this.$root.ExtList, rowIndex, row)
+      }
+    },
+    dragStart () {
+      this.tooltipDisabled = true
+    },
+    dragEnd () {
+      setTimeout(() => {
+        this.tooltipDisabled = false
+      }, 500)
     },
     getIcon,
   },
-  created() {
-    this.debounceSearch = debounce(() => {
+  created () {
+    this.search = debounce(() => {
       this.$root.searchKey = this.searchKey
     }, 300)
   },
   watch: {
-    searchKey(newVal, oldVal) {
-      this.debounceSearch()
-    },
-    list(newVal) {
-      chrome.storage.sync.set({
-        list: newVal.map(item => {
-          return { id: item.id }
-        }),
-      })
+    searchKey () {
+      this.search()
     },
   },
-  data() {
+  data () {
     return {
       tooltipDisabled: false,
-      pageStyle: {
-        width: '844px',
-        margin: '0 auto',
-      },
       searchKey: '',
-      list: this.$root.list,
     }
   },
   components: {
@@ -109,12 +96,6 @@ export default {
 .tip-content {
   max-width: 520px;
 }
-/* .sticky {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 1;
-} */
 .el-table {
   border-right: 1px solid #ebeef5;
   border-left: 1px solid #ebeef5;
