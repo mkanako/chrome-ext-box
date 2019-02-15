@@ -44,20 +44,25 @@ Promise.all([
   for (let i = 0; i < list.length; i++) {
     listID[list[i].id] = i
   }
+  const EXTENSION_ID = chrome.i18n.getMessage('@@extension_id')
   const ExtList = result[1].filter(item => {
     if (listID[item.id] !== undefined) {
       item.isAdd = true
       list[listID[item.id]].name = item.name
       list[listID[item.id]].icons = item.icons
     }
-    return (
-      item.type === 'extension' &&
-      item.id !== chrome.i18n.getMessage('@@extension_id')
-    )
+    return item.type === 'extension' && item.id !== EXTENSION_ID
   })
-  app.list = list
+  app.list = list.filter(item => !!item.name)
   app.ExtList = ExtList
-})
+  app.$watch('list', val => {
+    chrome.storage.sync.set({
+      list: val.map(item => {
+        return { id: item.id }
+      }),
+    })
+  })
+}).catch(err => alert(err))
 
 const app = new Vue({
   created () {
@@ -77,15 +82,6 @@ const app = new Vue({
       } else {
         return this.ExtList
       }
-    },
-  },
-  watch: {
-    list (val) {
-      chrome.storage.sync.set({
-        list: val.map(item => {
-          return { id: item.id }
-        }),
-      })
     },
   },
   render: h => h(App),
