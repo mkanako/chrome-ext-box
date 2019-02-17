@@ -7,6 +7,10 @@ import {
   TableColumn,
   Tooltip,
   Input,
+  Dialog,
+  Form,
+  FormItem,
+  Radio,
 } from 'element-ui'
 import App from './options.vue'
 
@@ -16,12 +20,16 @@ Vue.use(Button)
 Vue.use(TableColumn)
 Vue.use(Tooltip)
 Vue.use(Input)
+Vue.use(Dialog)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Radio)
 
 Vue.config.productionTip = false
 
 Promise.all([
   new Promise((resolve, reject) => {
-    chrome.storage.sync.get(['list'], result => {
+    chrome.storage.sync.get(['list', 'setting'], result => {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError)
       } else {
@@ -55,6 +63,7 @@ Promise.all([
   })
   app.list = list.filter(item => !!item.name)
   app.ExtList = ExtList
+  if (result[0].setting && result[0].setting.showType) app.showType = result[0].setting.showType
   app.$watch('list', val => {
     chrome.storage.sync.set({
       list: val.map(item => {
@@ -72,6 +81,7 @@ const app = new Vue({
     ExtList: [],
     list: [],
     searchKey: '',
+    showType: 1,
   },
   computed: {
     CurExtList () {

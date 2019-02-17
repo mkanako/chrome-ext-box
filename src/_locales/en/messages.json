@@ -26,5 +26,17 @@
   },
   "usage":{
     "message":"Please select from below to add the extensions you need to use (sortable)"
+  },
+  "showType1":{
+    "message":"Icon Only"
+  },
+  "showType2":{
+    "message":"Icon and Text"
+  },
+  "showText":{
+    "message":"Show:"
+  },
+  "settingConfirmBtn":{
+    "message":"Confirm"
   }
 }

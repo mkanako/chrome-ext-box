@@ -30,6 +30,18 @@
       </el-table-column>
     </el-table>
     <vm-back-top />
+    <el-dialog :visible.sync="dialogVisible" width="400px" label-position="right">
+      <el-form>
+        <el-form-item :label="$i18n('showText')" label-width="80px">
+          <el-radio v-model="$root.showType" :label="1">{{$i18n('showType1')}}</el-radio>
+          <el-radio v-model="$root.showType" :label="2">{{$i18n('showType2')}}</el-radio>
+      </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button type="primary" size="small" @click="settingConfirm">{{$i18n('settingConfirmBtn')}}</el-button>
+      </div>
+    </el-dialog>
+    <el-button class="btn-setting" type="primary" icon="el-icon-setting" circle @click="dialogVisible=true"></el-button>
   </div>
 </template>
 <script>
@@ -69,6 +81,12 @@ export default {
       }, 500)
     },
     getIcon,
+    settingConfirm () {
+      this.dialogVisible = false
+      chrome.storage.sync.set({
+        setting: { showType: this.$root.showType },
+      })
+    }
   },
   created () {
     this.search = debounce(() => {
@@ -84,6 +102,7 @@ export default {
     return {
       tooltipDisabled: false,
       searchKey: '',
+      dialogVisible: false,
     }
   },
   components: {
@@ -139,5 +158,14 @@ export default {
   width: 64px;
   vertical-align: middle;
   margin: 0 10px;
+}
+.btn-setting{
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  z-index: 1;
+}
+.el-dialog__body{
+  padding: 10px 20px 1px;
 }
 </style>

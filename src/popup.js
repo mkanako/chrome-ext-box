@@ -14,7 +14,7 @@ const getExtension = id =>
     })
   })
 
-chrome.storage.sync.get(['list'], result => {
+chrome.storage.sync.get(['list', 'setting'], result => {
   new Vue({
     created () {
       if (result.list && result.list.length) {
@@ -49,6 +49,7 @@ chrome.storage.sync.get(['list'], result => {
     },
     data: {
       list: [],
+      showType: (result.setting && result.setting.showType) || 1,
     },
     render: h => h(App),
   }).$mount('#app')

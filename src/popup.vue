@@ -1,8 +1,19 @@
 <template>
   <div class="wrapper">
+    <template v-if="$root.showType===1">
     <a @click="setEnabled(item,index)" :title="item.name" v-for="(item,index) in $root.list" :key="item.id" class="ext-item" :class="{disable:!item.enabled}">
       <img :src="getIcon(item)">
     </a>
+    </template>
+    <template v-else-if="$root.showType===2">
+    <ul>
+      <li v-for="(item,index) in $root.list" :key="item.id" class="ext-item" :class="{disable:!item.enabled}">
+        <a @click="setEnabled(item,index)" :title="item.name">
+          <img :src="getIcon(item)">&nbsp;&nbsp;{{item.name}}
+        </a>
+      </li>
+    </ul>
+    </template>
     <p v-if="$root.list.length==0" style="padding:0 20px;">{{ $i18n('emptyText') }}</p>
   </div>
 </template>
@@ -34,6 +45,18 @@ body {
   display:flex;
   max-width:320px;
   padding:5px;
+}
+.wrapper ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.wrapper li{
+  width: 200px;
+  padding: 5px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .ext-item {
   margin: 6px;

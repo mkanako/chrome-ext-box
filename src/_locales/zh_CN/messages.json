@@ -25,5 +25,17 @@
   },
   "usage":{
     "message":"请从下面选择添加需要用到的扩展进来（可拖拽排序）"
+  },
+  "showType1":{
+    "message":"仅图标"
+  },
+  "showType2":{
+    "message":"图标和文本"
+  },
+  "showText":{
+    "message":"显示："
+  },
+  "settingConfirmBtn":{
+    "message":"确认"
   }
 }
