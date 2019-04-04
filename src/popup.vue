@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="Array.isArray($root.list)">
     <template v-if="$root.showType===1">
     <a @click="setEnabled(item,index)" :title="item.name" v-for="(item,index) in $root.list" :key="item.id" class="ext-item" :class="{disable:!item.enabled}">
       <img :src="getIcon(item)">

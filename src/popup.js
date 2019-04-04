@@ -48,7 +48,7 @@ chrome.storage.sync.get(['list', 'setting'], result => {
       },
     },
     data: {
-      list: [],
+      list: null,
       showType: (result.setting && result.setting.showType) || 1,
     },
     render: h => h(App),
